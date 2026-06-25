@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Pricing Elasticity &amp; Tier Optimization Simulator | Designed by Dhaval Kareliya</title>
+  <!-- Tailwind CSS for high-quality, modern corporate styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Smooth custom transitions and scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
+
+  <!-- Main Navigation / Top Header -->
+  <header class="bg-white border-b border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1600px] mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 w-full">
+      
+      <!-- Left Column: Branding, Title, Description -->
+      <div class="flex flex-col gap-2 max-w-3xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-50 text-slate-600 border border-slate-200">
+            Monetization &amp; Strategy • Product Management Tool
+          </span>
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 whitespace-nowrap">
+            <span>Designed by Dhaval Kareliya</span>
+            <span class="text-indigo-200 font-normal">|</span>
+            
+            <!-- LinkedIn Link with Icon -->
+            <a href="https://www.linkedin.com/in/dhavalk21/" target="_blank" class="hover:text-indigo-900 hover:underline inline-flex items-center gap-1 transition font-bold">
+              <svg class="w-3.5 h-3.5 text-indigo-600 inline-block mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              LinkedIn
+            </a>
+            
+            <span class="text-indigo-200 font-normal">|</span>
+            
+            <!-- GitHub Link with Icon -->
+            <a href="https://github.com/Dhavalk21" target="_blank" class="hover:text-indigo-900 hover:underline inline-flex items-center gap-1 transition font-bold">
+              <svg class="w-3.5 h-3.5 text-indigo-600 inline-block mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </span>
+        </div>
+        
+        <!-- Main Title -->
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight mt-1">
+          SaaS Pricing Elasticity &amp; Tier Optimization Simulator
+        </h1>
+        
+        <!-- Description -->
+        <p class="text-sm text-slate-500 leading-relaxed">
+          Model how customer demand decays as subscription prices rise. Adjust price elasticity coefficients to discover the revenue "sweet spot" that maximizes monthly recurring margins.
+        </p>
+      </div>
+      
+      <!-- Right Column: Preset Buttons & Info Toggle -->
+      <div class="flex flex-wrap items-center gap-3 flex-shrink-0 self-start lg:self-center font-bold">
+        <button id="btnToggleGuide" class="inline-flex items-center justify-center px-6 h-11 border border-indigo-200 text-sm font-semibold rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition whitespace-nowrap">
+          Show Guide
+        </button>
+        <button id="btnLoadInelastic" class="inline-flex items-center justify-center px-4 h-11 border border-slate-300 text-sm font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition whitespace-nowrap">
+          Load Highly Inelastic (Enterprise) Scenario
+        </button>
+        <button id="btnLoadElastic" class="inline-flex items-center justify-center px-4 h-11 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition whitespace-nowrap">
+          Load Highly Elastic (B2C) Scenario
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Expandable Educational Guide -->
+  <section id="quickGuideBanner" class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6 hidden">
+    <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white rounded-2xl p-6 shadow-md border border-indigo-950 relative overflow-hidden">
+      <div class="absolute right-0 top-0 w-64 h-64 bg-indigo-500 opacity-10 blur-3xl pointer-events-none"></div>
+      
+      <div class="flex items-center justify-between border-b border-indigo-800/60 pb-3 mb-6">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          SaaS Pricing Economics Playbook &amp; User Manual
+        </h3>
+        <span class="text-xs font-semibold tracking-wider text-indigo-300 uppercase bg-indigo-950/80 px-3 py-1 rounded-full">Strategic Framework</span>
+      </div>
+
+      <!-- Playbook Steps -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-indigo-200">
+        <div class="bg-indigo-950/40 p-5 rounded-xl border border-indigo-800/30">
+          <h4 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-xs">1</span>
+            Price Elasticity of Demand (<i>E<sub>d</sub></i>)
+          </h4>
+          <p class="leading-relaxed">
+            Measures how sensitive your users are to price hikes. If <i>E<sub>d</sub></i> = 0.5 (Inelastic), a 10% price hike only cuts sales by 5%, leading to higher total revenue. If <i>E<sub>d</sub></i> = 2.0 (Elastic), a 10% price hike cuts sales by 20%, hurting revenue.
+          </p>
+        </div>
+
+        <div class="bg-indigo-950/40 p-5 rounded-xl border border-indigo-800/30">
+          <h4 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-xs">2</span>
+            Discovering the "Sweet Spot"
+          </h4>
+          <p class="leading-relaxed">
+            By combining elasticity coefficients with pricing tiers, we construct an exponential decay curve. This simulates the exact pricing threshold where total recurring margins are maximized before drop-offs take over.
+          </p>
+        </div>
+
+        <div class="bg-indigo-950/40 p-5 rounded-xl border border-indigo-800/30">
+          <h4 class="font-bold text-white text-sm mb-2 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-xs">3</span>
+            Tier Optimization
+          </h4>
+          <p class="leading-relaxed">
+            Enterprise products usually benefit from price increases because of low price elasticity, whereas consumer apps require high volume and lower prices to succeed. Use the simulator presets to see both strategies.
+          </p>
+        </div>
+      </div>
+
+      <!-- NEW: User Guide & Benchmarks (Step-by-step with practical benchmarks) -->
+      <div class="mt-6 pt-6 border-t border-indigo-800/60 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-indigo-200">
+        <div class="bg-indigo-950/40 p-5 rounded-xl border border-indigo-800/30">
+          <h4 class="font-bold text-white text-sm mb-3 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            How to Use &amp; Try out a Sample Example:
+          </h4>
+          <ol class="list-decimal list-inside space-y-2 leading-relaxed text-indigo-100">
+            <li>Click the white <strong class="text-white">Load Highly Inelastic (Enterprise) Scenario</strong> button at the top to load our pre-configured base enterprise settings.</li>
+            <li>Note how the audience volume is small (12,000 traffic) but the base conversion is highly resilient with a low sensitivity coefficient (<strong class="text-white"><i>E<sub>d</sub></i> = 0.45</strong>).</li>
+            <li>In Section 2, locate the <strong class="text-white">Pro Plan price slider</strong>. Move it upwards to increase the price from €79 to €95.</li>
+            <li>Look at the right panel: despite a minor decay in conversion rate, the <strong class="text-white">Annual Revenue Lift</strong> expands by thousands of Euros! This demonstrates an ideal high-yield monetization tweak.</li>
+          </ol>
+        </div>
+
+        <div class="bg-indigo-950/40 p-5 rounded-xl border border-indigo-800/30">
+          <h4 class="font-bold text-white text-sm mb-3 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Elasticity &amp; Packaging Benchmarks:
+          </h4>
+          <ul class="space-y-2 leading-relaxed text-indigo-100 list-disc list-inside">
+            <li><strong class="text-white">Inelastic Range (<i>E<sub>d</sub></i> &lt; 1.0):</strong> Low price sensitivity. Users value utility over cost. A great indicator of solid product-market fit or mission-critical enterprise tooling. Perfect for high-ACV expansion.</li>
+            <li><strong class="text-white">Elastic Range (<i>E<sub>d</sub></i> &gt; 1.0):</strong> High price sensitivity. Common in highly saturated B2C/Consumer spaces. Price increases here should be backed by significant product value upgrades to prevent churn.</li>
+            <li><strong class="text-white">Ideal LTV to CAC Ratio:</strong> Target an index <strong class="text-white">&ge; 3.0x</strong>. If your simulated ratios fall below 3.0x, it signifies your acquisition cost (CAC) is unsustainably high compared to long-term monetization.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Workspace Grid (38.3% Left Column, 61.7% Right Column) -->
+  <main class="flex-grow max-w-[1600px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Left Panel: Input Controls & Sliders (38.3% Width) -->
+    <div class="w-full lg:w-[38.3%] flex flex-col gap-6 flex-shrink-0">
+      
+      <!-- Section 1: Baseline Demands & Traffic -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          1. Audience &amp; Conversion Baseline
+        </h2>
+        
+        <div class="space-y-4">
+          <!-- Monthly Traffic -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="flex items-center gap-1.5 font-semibold uppercase tracking-wider text-slate-500">
+                Monthly Addressable Traffic
+                <div class="relative inline-block group">
+                  <span class="text-indigo-600 cursor-help font-bold text-[11px] bg-indigo-50 hover:bg-indigo-100 w-4 h-4 rounded-full flex items-center justify-center transition border border-indigo-200">?</span>
+                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-64 bg-slate-800 text-white text-xs rounded-lg p-3 shadow-xl z-50 pointer-events-none normal-case font-normal leading-relaxed">
+                    <strong>Monthly Traffic:</strong> The total number of unique website visitors or trial signups navigating your product per month.
+                  </div>
+                </div>
+              </span>
+              <span id="labelTraffic" class="text-slate-400">Audience size</span>
+            </div>
+            <input type="number" id="traffic" step="1000" min="100" value="50000" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+
+          <!-- Base Trial-to-Paid Conversion Rate -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="flex items-center gap-1.5 font-semibold uppercase tracking-wider text-slate-500">
+                Base Conversion Rate (%)
+                <div class="relative inline-block group">
+                  <span class="text-indigo-600 cursor-help font-bold text-[11px] bg-indigo-50 hover:bg-indigo-100 w-4 h-4 rounded-full flex items-center justify-center transition border border-indigo-200">?</span>
+                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-64 bg-slate-800 text-white text-xs rounded-lg p-3 shadow-xl z-50 pointer-events-none normal-case font-normal leading-relaxed">
+                    <strong>Baseline Conversion Rate:</strong> The percentage of monthly traffic that currently upgrades to any paid plan before modifying prices.
+                  </div>
+                </div>
+              </span>
+              <span id="valBaseCr" class="font-bold text-indigo-600">5.0%</span>
+            </div>
+            <input type="range" id="baseCr" min="0.5" max="25" step="0.1" value="5.0" class="w-full h-2 rounded-lg bg-slate-200 accent-indigo-600 cursor-pointer">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Pricing Tiers & Elasticity Setup -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          2. Packaging &amp; Price Elasticity
+        </h2>
+        
+        <div class="space-y-4">
+          <!-- Price Elasticity coefficient slider -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="flex items-center gap-1.5 font-semibold uppercase tracking-wider text-slate-500">
+                Elasticity Coefficient (<i>E<sub>d</sub></i>)
+                <div class="relative inline-block group">
+                  <span class="text-indigo-600 cursor-help font-bold text-[11px] bg-indigo-50 hover:bg-indigo-100 w-4 h-4 rounded-full flex items-center justify-center transition border border-indigo-200">?</span>
+                  <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block w-72 bg-slate-800 text-white text-xs rounded-lg p-3 shadow-xl z-50 pointer-events-none normal-case font-normal leading-relaxed">
+                    <strong>Price Elasticity of Demand (Ed):</strong> Low values (e.g. 0.5) mean users are less sensitive to price changes (Inelastic). High values (e.g. 1.8) mean users will churn quickly if prices rise (Elastic).
+                  </div>
+                </div>
+              </span>
+              <span id="valElasticity" class="font-bold text-indigo-600">1.20</span>
+            </div>
+            <input type="range" id="elasticity" min="0.1" max="3.0" step="0.05" value="1.20" class="w-full h-2 rounded-lg bg-slate-200 accent-indigo-600 cursor-pointer">
+          </div>
+
+          <!-- Free Tier Settings -->
+          <div class="border-t border-slate-100 pt-3">
+            <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Pro Plan Configuration</span>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="proPrice" class="block text-[11px] text-slate-500 font-semibold mb-1">Target Monthly Price</label>
+                <input type="number" id="proPrice" min="1" value="29" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+              <div>
+                <label for="proShare" class="block text-[11px] text-slate-500 font-semibold mb-1">Expected Conversion Share</label>
+                <input type="number" id="proShare" min="5" max="100" value="70" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" title="What percentage of paid conversions select the Pro Tier">
+              </div>
+            </div>
+          </div>
+
+          <!-- Enterprise Tier Settings -->
+          <div class="border-t border-slate-100 pt-3">
+            <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Enterprise Plan Configuration</span>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="entPrice" class="block text-[11px] text-slate-500 font-semibold mb-1">Target Monthly Price</label>
+                <input type="number" id="entPrice" min="5" value="199" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              </div>
+              <div>
+                <label for="entShare" class="block text-[11px] text-slate-500 font-semibold mb-1">Expected Conversion Share</label>
+                <input type="number" id="entShare" min="0" max="95" value="30" class="w-full h-10 px-3 border border-slate-300 rounded-lg text-sm bg-slate-100 text-slate-400 font-semibold" readonly title="Enterprise share is dynamically calculated to sum to 100%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Baseline References -->
+      <div class="bg-slate-900 text-slate-100 p-6 rounded-xl border border-slate-800 shadow-md">
+        <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+          3. Baseline Anchors
+        </h2>
+        <p class="text-xs text-slate-400 mb-4 leading-relaxed">Enter your original price point. The model uses this to calculate price changes and project conversions.</p>
+        
+        <div class="space-y-4">
+          <!-- Original Price Point -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-300 font-semibold uppercase">Original Base Price (€)</span>
+              <span id="valOrigPrice" class="text-white font-bold">€20</span>
+            </div>
+            <input type="range" id="origPrice" min="5" max="250" step="5" value="20" class="w-full h-2 rounded-lg bg-slate-800 accent-indigo-500 cursor-pointer">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Right Panel: Visualizations & Analytics Workspace (61.7% Width) -->
+    <div class="w-full lg:w-[61.7%] flex flex-col gap-6 flex-grow">
+      
+      <!-- Top-line Revenue Metric Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Projected Total ARR -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+          <div class="absolute right-0 top-0 h-1.5 bg-indigo-500 w-full"></div>
+          <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Projected ARR</span>
+          <span id="statArr" class="block text-3xl font-extrabold text-slate-900 mt-1">€0</span>
+          <span class="block text-[10px] text-slate-400 mt-2">Annual Recurring Revenue under optimized pricing.</span>
+        </div>
+
+        <!-- Average Revenue Per Paid User (ARPPU) -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+          <div class="absolute right-0 top-0 h-1.5 bg-emerald-500 w-full"></div>
+          <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Weighted ARPPU</span>
+          <span id="statArppu" class="block text-3xl font-extrabold text-emerald-600 mt-1">€0.00</span>
+          <span class="block text-[10px] text-slate-400 mt-2">Average monthly contract yield per customer.</span>
+        </div>
+
+        <!-- Net Annual Profit Margin Lift -->
+        <div class="bg-slate-900 text-white p-5 rounded-xl shadow-md flex flex-col justify-between">
+          <div>
+            <span class="block text-[10px] font-bold uppercase tracking-widest text-indigo-300">Annual Revenue Lift</span>
+            <span id="statRevenueLift" class="block text-2xl font-extrabold text-white mt-1">€0 / Year</span>
+          </div>
+          <span id="statPercentLift" class="block text-[10px] text-slate-400 mt-2 font-semibold">
+            Baseline ARR: €0
+          </span>
+        </div>
+      </div>
+
+      <!-- Live-Generated Interactive SVG Line Chart -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center justify-between">
+          <span>Demand Decay &amp; ARR Optimization Curve</span>
+          <span class="text-xs font-normal text-slate-400 flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 border-t-2 border-indigo-600 inline-block"></span> Projected ARR</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 border-t-2 border-slate-400 inline-block"></span> Demands Decay (Conversions)</span>
+          </span>
+        </h3>
+        
+        <div class="relative w-full h-[240px] bg-slate-50 rounded-lg p-2 border border-slate-100">
+          <svg id="demandChart" viewBox="0 0 500 200" class="w-full h-full overflow-visible">
+            <!-- Grid Lines and Y-Axis Marks -->
+            <line x1="40" y1="20" x2="480" y2="20" stroke="#f1f5f9" stroke-width="1" />
+            <line x1="40" y1="60" x2="480" y2="60" stroke="#f1f5f9" stroke-width="1" />
+            <line x1="40" y1="100" x2="480" y2="100" stroke="#f1f5f9" stroke-width="1" />
+            <line x1="40" y1="140" x2="480" y2="140" stroke="#f1f5f9" stroke-width="1" />
+            <line x1="40" y1="180" x2="480" y2="180" stroke="#e2e8f0" stroke-width="1.5" />
+            <line x1="40" y1="20" x2="40" y2="180" stroke="#e2e8f0" stroke-width="1.5" />
+            
+            <text x="30" y="24" font-size="8" fill="#94a3b8" text-anchor="end">Max</text>
+            <text x="30" y="104" font-size="8" fill="#94a3b8" text-anchor="end">50%</text>
+            <text x="30" y="184" font-size="8" fill="#94a3b8" text-anchor="end">0%</text>
+
+            <!-- X-Axis Labels (Price Scale) -->
+            <text x="40" y="195" font-size="8" fill="#94a3b8" text-anchor="middle">€0</text>
+            <text x="150" y="195" font-size="8" fill="#94a3b8" text-anchor="middle">€50</text>
+            <text x="260" y="195" font-size="8" fill="#94a3b8" text-anchor="middle">€100</text>
+            <text x="370" y="195" font-size="8" fill="#94a3b8" text-anchor="middle">€150</text>
+            <text x="480" y="195" font-size="8" fill="#94a3b8" text-anchor="middle">€200+</text>
+
+            <!-- Dynamic Paths loaded programmatically -->
+            <path id="pathDemand" d="" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="3,3" />
+            <path id="pathRevenue" d="" fill="none" stroke="#4f46e5" stroke-width="3" />
+            
+            <!-- Highlight marker of current selection -->
+            <circle id="markerCurrent" cx="40" cy="180" r="6" fill="#10b981" stroke="#ffffff" stroke-width="1.5" class="transition-all duration-300" />
+            <text id="markerLabel" x="45" y="175" font-size="8" font-weight="bold" fill="#0f172a" class="transition-all duration-300">Current</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Pricing Research Methodologies Info Cards -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+          SaaS Pricing Research Methodologies
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-4 bg-indigo-50/60 rounded-lg border border-indigo-100">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-800 uppercase tracking-wide">Gabor-Granger Method</span>
+            <p class="text-xs text-slate-700 mt-2 font-semibold">Pricing Elasticity Identification</p>
+            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+              Surveys customers by asking if they would purchase a product at randomly selected price points to plot an empirical demand curve. This model calculates the precise price elasticity coefficient (<i>E<sub>d</sub></i>) simulated in this dashboard.
+            </p>
+          </div>
+
+          <div class="p-4 bg-purple-50/60 rounded-lg border border-purple-100">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800 uppercase tracking-wide">Van Westendorp Meter</span>
+            <p class="text-xs text-slate-700 mt-2 font-semibold">Price Sensitivity Mapping</p>
+            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+              Asks users four critical questions (Too Cheap, Cheap/Good Value, Expensive, Too Expensive) to map intersections and discover the "Range of Acceptable Prices" and the Point of Marginal Cheapness.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive Memo Output Dashboard -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Enterprise Pricing Strategy Executive Brief</h3>
+            <p class="text-xs text-slate-500 mt-0.5">An instantly copyable brief of unit economics suitable for presentation to the VP of Product or Chief Financial Officer.</p>
+          </div>
+          <button id="btnCopyMemo" class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3.5 py-2 rounded-lg transition font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Memo (Markdown)
+          </button>
+        </div>
+        
+        <div class="p-6 bg-slate-50">
+          <div id="memoContent" class="bg-white p-6 rounded-lg border border-slate-200 shadow-inner font-mono text-xs text-slate-700 whitespace-pre-wrap leading-relaxed max-h-[300px] overflow-y-auto">
+            <!-- Memo renders dynamically -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Professional Portfolio Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-auto py-6 px-4">
+    <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>
+        <p>&copy; 2026 Dhaval Kareliya. All rights reserved.</p>
+      </div>
+      <div class="flex items-center gap-6 font-semibold">
+        <a href="https://www.linkedin.com/in/dhavalk21/" target="_blank" class="text-slate-600 hover:text-indigo-600 transition">LinkedIn</a>
+        <a href="https://github.com/Dhavalk21" target="_blank" class="text-slate-600 hover:text-indigo-600 transition font-bold">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Dashboard Business Logic -->
+  <script>
+    // State management representing active inputs
+    let model = {
+      traffic: 50000,
+      baseCr: 5.0,
+      elasticity: 1.2,
+      proPrice: 29,
+      proShare: 70,
+      entPrice: 199,
+      origPrice: 20
+    };
+
+    // Traditional presets for enterprise vs consumer elasticity
+    const enterprisePreset = {
+      traffic: 12000,
+      baseCr: 3.5,
+      elasticity: 0.45,
+      proPrice: 79,
+      proShare: 60,
+      entPrice: 499,
+      origPrice: 50
+    };
+
+    const consumerPreset = {
+      traffic: 200000,
+      baseCr: 8.0,
+      elasticity: 1.85,
+      proPrice: 12,
+      proShare: 85,
+      entPrice: 49,
+      origPrice: 10
+    };
+
+    // DOM Elements
+    const inputTraffic = document.getElementById('traffic');
+    const inputBaseCr = document.getElementById('baseCr');
+    const valBaseCr = document.getElementById('valBaseCr');
+    const inputElasticity = document.getElementById('elasticity');
+    const valElasticity = document.getElementById('valElasticity');
+
+    const inputProPrice = document.getElementById('proPrice');
+    const inputProShare = document.getElementById('proShare');
+    const inputEntPrice = document.getElementById('entPrice');
+    const inputEntShare = document.getElementById('entShare');
+
+    const inputOrigPrice = document.getElementById('origPrice');
+    const valOrigPrice = document.getElementById('valOrigPrice');
+
+    // Stats Displays
+    const statArr = document.getElementById('statArr');
+    const statArppu = document.getElementById('statArppu');
+    const statRevenueLift = document.getElementById('statRevenueLift');
+    const statPercentLift = document.getElementById('statPercentLift');
+
+    const chartDemandPath = document.getElementById('pathDemand');
+    const chartRevenuePath = document.getElementById('pathRevenue');
+    const markerCurrent = document.getElementById('markerCurrent');
+    const markerLabel = document.getElementById('markerLabel');
+    const memoContent = document.getElementById('memoContent');
+
+    const btnToggleGuide = document.getElementById('btnToggleGuide');
+    const quickGuideBanner = document.getElementById('quickGuideBanner');
+
+    // Guide Visibility Toggle
+    btnToggleGuide.addEventListener('click', () => {
+      const isHidden = quickGuideBanner.classList.toggle('hidden');
+      btnToggleGuide.textContent = isHidden ? 'Show Guide' : 'Hide Guide';
+    });
+
+    // Setup Presets
+    document.getElementById('btnLoadInelastic').addEventListener('click', () => {
+      model = { ...enterprisePreset };
+      applyModelToInputs();
+      calculate();
+    });
+
+    document.getElementById('btnLoadElastic').addEventListener('click', () => {
+      model = { ...consumerPreset };
+      applyModelToInputs();
+      calculate();
+    });
+
+    // Share proportion synchronizer
+    inputProShare.addEventListener('input', () => {
+      const val = Math.max(0, Math.min(100, parseInt(inputProShare.value) || 0));
+      inputProShare.value = val;
+      inputEntShare.value = 100 - val;
+      updateState();
+    });
+
+    // Exponential Decay Demand Modeler
+    // Yields realistic non-linear decay curves preventing negative outcomes
+    function calculateDecayedCr(price, basePrice, baseCr, elasticity) {
+      if (basePrice <= 0) return 0;
+      const k = elasticity / basePrice;
+      const decayedCr = baseCr * Math.exp(-k * (price - basePrice));
+      return Math.max(0, Math.min(100, decayedCr));
+    }
+
+    // Mathematical calculations
+    function calculate() {
+      // Synchronize Enterprise Share percentage
+      const pShare = Math.max(0, Math.min(100, parseInt(inputProShare.value) || 0));
+      const entShareVal = 100 - pShare;
+      inputEntShare.value = entShareVal;
+
+      // 1. Calculate Weighted ARPPU (Average Revenue Per Paid User)
+      const arppu = (model.proPrice * (pShare / 100)) + (model.entPrice * (entShareVal / 100));
+      statArppu.textContent = `€${arppu.toFixed(2)}`;
+
+      // 2. Base Demand and revenue profiles
+      // Baseline metrics derived from original pricing configuration
+      const baseConversionRateVal = model.baseCr; 
+      const baseMonthlyConversions = model.traffic * (baseConversionRateVal / 100.0);
+      const baseMonthlyRevenue = baseMonthlyConversions * model.origPrice;
+      const baseArr = baseMonthlyRevenue * 12.0;
+
+      // 3. Optimized Revenue Modeling (Applying exponential decay across weighted prices)
+      const optimizedCr = calculateDecayedCr(arppu, model.origPrice, model.baseCr, model.elasticity);
+      const optimizedMonthlyConversions = model.traffic * (optimizedCr / 100.0);
+      const optimizedMonthlyRevenue = optimizedMonthlyConversions * arppu;
+      const optimizedArr = optimizedMonthlyRevenue * 12.0;
+
+      // Update stat cards
+      statArr.textContent = `€${Math.round(optimizedArr).toLocaleString()}`;
+      
+      const arrLift = optimizedArr - baseArr;
+      const percentLift = baseArr > 0 ? (arrLift / baseArr) * 100 : 0;
+
+      statRevenueLift.textContent = `${arrLift >= 0 ? '+' : ''}€${Math.round(arrLift).toLocaleString()} / Yr`;
+      statPercentLift.innerHTML = `Baseline ARR: <strong>€${Math.round(baseArr).toLocaleString()}</strong> (${percentLift >= 0 ? '+' : ''}${percentLift.toFixed(1)}% lift)`;
+
+      // 4. Render SVG Chart curves dynamically
+      // Grid dimensions: 500x200. X ranges 40 to 480 (Price 0 to €300+), Y ranges 180 to 20 (Accuracy 0 to 100%)
+      const maxVisualPrice = Math.max(300, arppu * 1.5);
+      
+      const getX = (price) => {
+        const pct = Math.min(1.0, price / maxVisualPrice);
+        return 40 + (pct * 440);
+      };
+
+      const getY = (value, maxVal) => {
+        const pct = maxVal > 0 ? Math.min(1.0, value / maxVal) : 0;
+        return 180 - (pct * 160);
+      };
+
+      // Plot sample points for both curves
+      const demandPoints = [];
+      const revenuePoints = [];
+      let maxSimRevenue = 0;
+
+      // First run: find max revenue to scale Y axis appropriately
+      for (let p = 0; p <= maxVisualPrice; p += maxVisualPrice / 40) {
+        const tempCr = calculateDecayedCr(p, model.origPrice, model.baseCr, model.elasticity);
+        const tempRev = (model.traffic * (tempCr / 100)) * p * 12;
+        if (tempRev > maxSimRevenue) maxSimRevenue = tempRev;
+      }
+      if (maxSimRevenue === 0) maxSimRevenue = 1;
+
+      // Second run: map points
+      for (let p = 0; p <= maxVisualPrice; p += maxVisualPrice / 40) {
+        const tempCr = calculateDecayedCr(p, model.origPrice, model.baseCr, model.elasticity);
+        const tempRev = (model.traffic * (tempCr / 100)) * p * 12;
+
+        demandPoints.push(`${getX(p)},${getY(tempCr, model.baseCr * 1.5)}`);
+        revenuePoints.push(`${getX(p)},${getY(tempRev, maxSimRevenue)}`);
+      }
+
+      chartDemandPath.setAttribute('d', `M ${demandPoints.join(' L ')}`);
+      chartRevenuePath.setAttribute('d', `M ${revenuePoints.join(' L ')}`);
+
+      // Set current selection marker position
+      const currentX = getX(arppu);
+      const currentY = getY(optimizedArr, maxSimRevenue);
+
+      markerCurrent.setAttribute('cx', currentX);
+      markerCurrent.setAttribute('cy', currentY);
+      
+      markerLabel.setAttribute('x', currentX + 10);
+      markerLabel.setAttribute('y', currentY - 5);
+      markerLabel.textContent = `€${Math.round(optimizedArr).toLocaleString()} (ARPPU: €${arppu.toFixed(0)})`;
+
+      // 5. Update Executive Strategy Brief Memo
+      updateMemo(arppu, optimizedCr, baseArr, optimizedArr, arrLift, percentLift);
+    }
+
+    // Auto-drafting Executive Brief memo
+    function updateMemo(arppu, optimizedCr, baseArr, optimizedArr, arrLift, percentLift) {
+      let text = `### 💼 ENTERPRISE MONETIZATION & PACKAGING STRATEGY BRIEF\n`;
+      text += `Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n`;
+      text += `Author: Dhaval Kareliya | Product Growth Operations\n`;
+      text += `=========================================================================\n\n`;
+
+      text += `1. PACKAGING PARAMETERS (12-MONTH HORIZON)\n`;
+      text += `-------------------------------------------------------------------------\n`;
+      text += `* Monthly Sign-up Scale     : ${model.traffic.toLocaleString()} unique audience visitors\n`;
+      text += `* Original Anchor Base Price : €${model.origPrice.toFixed(2)}\n`;
+      text += `* Price Elasticity of Demand : ${model.elasticity.toFixed(2)} (${model.elasticity < 1.0 ? 'Inelastic' : 'Elastic'})\n\n`;
+      
+      text += `* Weighted Monthly ARPPU    : €${arppu.toFixed(2)} (Pro: €${model.proPrice} @ ${model.proShare}%, Ent: €${model.entPrice} @ ${100 - model.proShare}%)\n`;
+      text += `* Predicted Conversion Rate : ${optimizedCr.toFixed(3)}% (Baseline: ${model.baseCr.toFixed(2)}%)\n\n`;
+
+      text += `2. ANNUAL REVENUE EXPANSION IMPACT\n`;
+      text += `-------------------------------------------------------------------------\n`;
+      text += `By restructuring current pricing packages and migrating paid tiers to a weighted monthly ARPPU of €${arppu.toFixed(0)}, we project:\n\n`;
+      text += `>> Baseline annual run-rate (ARR)     : €${Math.round(baseArr).toLocaleString()}\n`;
+      text += `>> Optimized annual run-rate (ARR)    : €${Math.round(optimizedArr).toLocaleString()}\n`;
+      text += `>> Net Annual Recurring Revenue Delta : +€${Math.round(arrLift).toLocaleString()} (${percentLift >= 0 ? '+' : ''}${percentLift.toFixed(1)}% expansion)\n\n`;
+
+      text += `3. GROWTH STRATEGY RECOMMENDATIONS\n`;
+      text += `-------------------------------------------------------------------------\n`;
+      if (arrLift > 0) {
+        text += `- **Recommendation: APPROVED FOR PACKAGING ROLLOUT.** Restructuring baseline prices to the proposed tiered packaging yields positive revenue expansion. The low elasticity threshold validates enterprise willingness to pay.\n`;
+        text += `- **Action Item:** Instruct product growth teams to implement this tiered pricing matrix in the next engineering cycle to capture high-margin ARR.\n`;
+      } else {
+        text += `- **Recommendation: REJECT PACKAGING RESTRUCTURE.** The high price sensitivity of this cohort (E_d = ${model.elasticity.toFixed(2)}) causes conversions to drop too fast to support a price increase. Maintain the baseline experience or lower target prices to find a better balance.\n`;
+      }
+
+      memoContent.textContent = text;
+    }
+
+    // Setup state updating links
+    function updateState() {
+      model.traffic = parseInt(inputTraffic.value) || 100;
+      model.baseCr = parseFloat(inputBaseCr.value);
+      valBaseCr.textContent = `${model.baseCr.toFixed(1)}%`;
+      model.elasticity = parseFloat(inputElasticity.value);
+      valElasticity.textContent = `${model.elasticity.toFixed(2)}`;
+
+      model.proPrice = parseInt(inputProPrice.value) || 1;
+      model.proShare = parseInt(inputProShare.value) || 0;
+      model.entPrice = parseInt(inputEntPrice.value) || 1;
+
+      model.origPrice = parseInt(inputOrigPrice.value);
+      valOrigPrice.textContent = `€${model.origPrice}`;
+
+      calculate();
+    }
+
+    // Connect input elements to recalculation triggers
+    [inputTraffic, inputBaseCr, inputElasticity, inputProPrice, inputProShare, inputEntPrice, inputOrigPrice].forEach(input => {
+      input.addEventListener('input', updateState);
+    });
+
+    // Apply model values back to fields on presets load
+    function applyModelToInputs() {
+      inputTraffic.value = model.traffic;
+      inputBaseCr.value = model.baseCr;
+      valBaseCr.textContent = `${model.baseCr.toFixed(1)}%`;
+      inputElasticity.value = model.elasticity;
+      valElasticity.textContent = `${model.elasticity.toFixed(2)}`;
+
+      inputProPrice.value = model.proPrice;
+      inputProShare.value = model.proShare;
+      inputEntPrice.value = model.entPrice;
+      inputEntShare.value = 100 - model.proShare;
+
+      inputOrigPrice.value = model.origPrice;
+      valOrigPrice.textContent = `€${model.origPrice}`;
+    }
+
+    // Clipboard copy action
+    document.getElementById('btnCopyMemo').addEventListener('click', () => {
+      const textToCopy = memoContent.textContent;
+      const tempArea = document.createElement("textarea");
+      tempArea.value = textToCopy;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempArea);
+
+      const btn = document.getElementById('btnCopyMemo');
+      const oldLabel = btn.innerHTML;
+      btn.innerHTML = `
+        <svg class="w-4 h-4 text-green-600 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        Brief Copied!
+      `;
+      setTimeout(() => {
+        btn.innerHTML = oldLabel;
+      }, 2000);
+    });
+
+    // Initialize Page
+    window.onload = function() {
+      applyModelToInputs();
+      calculate();
+    };
+  </script>
+
+</body>
+</html>
