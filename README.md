@@ -2,7 +2,7 @@
 
 An interactive, strategic product management dashboard designed to model customer demand decay curves, evaluate price elasticity parameters ($E_d$), and calculate the mathematical "sweet spot" that maximizes monthly recurring revenues (MRR) and annual margins (ARR) across tiered subscription models.
 
-### 🔗 Live Link: [Launch the Interactive Simulator Here](https://YOUR_GITHUB_USERNAME.github.io/saas-pricing-elasticity-optimizer/)
+### 🔗 Live Link: [Launch the Interactive Simulator Here](https://dhavalk21.github.io/saas-pricing-elasticity-optimizer/)
 
 
 ## 🌟 Core PM Competencies Demonstrated
