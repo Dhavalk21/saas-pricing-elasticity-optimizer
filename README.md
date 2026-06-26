@@ -25,5 +25,5 @@ This simulator uses continuous economic modeling to project user lifecycle value
 
 3. **Annual Recurring Revenue Projection (ARR):**
    $$\text{ARR}_{\mathrm{Projected}} = \text{Monthly Traffic} \times CR_{\mathrm{new}} \times \text{ARPPU} \times 12$$
----
+
 &copy; 2026 Dhaval Kareliya. All rights reserved.
