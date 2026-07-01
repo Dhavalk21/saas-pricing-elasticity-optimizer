@@ -4,7 +4,6 @@ An interactive, strategic product management dashboard designed to model custome
 
 ### 🔗 Live Link: [Launch the Interactive Simulator Here](https://dhavalk21.github.io/saas-pricing-elasticity-optimizer/)
 
-
 ## 🌟 Core PM Competencies Demonstrated
 
 * **Monetization & Packaging Strategy:** Understands how to structure multi-tier subscription packaging (e.g., Pro vs. Enterprise) and balance conversion shares to optimize weighted Average Revenue Per Paid User (ARPPU).
